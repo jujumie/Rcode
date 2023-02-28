@@ -1,0 +1,52 @@
+---
+title: "Lab: The Normal Distribution"
+author: "Juliana Meirelles"
+date: "Apr 5 2021"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+head(fastfood)
+```
+
+### Exercise 1
+
+The Mcdonalds distribution is centered more toward the left of the plot and has high-value outliers to the right. The center is around 250 calories of fat. The Dairy Queen distribution is centered more around 200-220 calories of fat. There are some outliers in this graph, but there is a shorter tail than in the Mcdonalds distribution. 
+
+```{r code-chunk-label}
+mcdonalds <- fastfood %>%
+  filter(restaurant == "Mcdonalds")
+dairy_queen <- fastfood %>%
+  filter(restaurant == "Dairy Queen")
+
+ggplot(data = mcdonalds, aes(x = cal_fat)) +
+  geom_histogram(binwidth = 30)
+
+ggplot(data = dairy_queen, aes(x = cal_fat)) + 
+  geom_histogram(binwidth = 30)
+```
+
+### Exercise 2
+
+```{r}
+dqmean <- mean(dairy_queen$cal_fat)
+dqsd   <- sd(dairy_queen$cal_fat)
+```
+
+### Exercise 3
+
+### Exercise 4
+
+### Exercise 5
+
+### Exercise 6
+
+### Exercise 7
+
+### Exercise 8
+
+### Exercise 9
+...
+

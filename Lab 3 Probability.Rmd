@@ -1,0 +1,82 @@
+---
+title: "Lab: Probability"
+author: "Juliana Meirelles"
+date: "Apr 5 2021"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+
+data(kobe_basket)
+```
+
+### Exercise 1
+
+A streak length of 1 means 1 hit and one miss. A streak length of 0 means 1 miss and 0 hits.  
+
+```{r code-chunk-label}
+glimpse(kobe_basket)
+```
+
+### Exercise 2
+
+The bar graph shows that the majority of his streak lengths are 0, followed by 1, 2, 3, and 4 with the least amount of streaks. He had almost 40 streaks of streak length 0. 
+
+```{r}
+kobe_streak <- calc_streak(kobe_basket$shot)
+
+ggplot(data = kobe_streak, aes(x = length)) +
+  geom_bar()
+```
+
+### Exercise 3
+
+In my simulation of flipping the unfair coin 100 times, 27 heads came up and 73 tails. 
+
+```{r}
+coin_outcomes <- c("heads", "tails")
+
+set.seed(1112)
+
+sim_unfair_coin <- sample(coin_outcomes, size = 100, replace = TRUE, 
+                           prob = c(0.2, 0.8))
+```
+
+### Exercise 4
+
+The outcome is 44 hits and 89 misses. 
+```{r}
+shot_outcomes <- c("H", "H", "H", "H", "H", "H", "H", "H", "H", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M")
+
+sim_basket <- sample(shot_outcomes, size = 133, replace = TRUE)
+
+table(sim_basket)
+```
+
+### Exercise 5
+```{r}
+sim_streak <- calc_streak(sim_basket)
+
+table(sim_streak)
+```
+
+### Exercise 6
+
+The distribution of streak lengths shows that the typical streak length for this simulated independent shooter with a 45% shooting percentage is 0, then 1, then 2. The player's longest streak of baskets in 133 shots is 2. 
+
+```{r}
+ggplot(data = sim_streak, aes(x = length)) +
+  geom_bar()
+```
+
+### Exercise 7
+
+I would expect the streak distribution to be similar to this streak distribution, but different because these are independent events and each one can result in a differnt outcome, even though there is a shooting percentage given in the argument. 
+
+### Exercise 8
+
+Kobe Bryant's distribution of streak lengths showed that the majority of his streak lengths are 0, followed by 1, 2, 3, and 4. The distribution of streak lengths for the simulated shooter also showed 0 as the typical streak length but only had streak lengths of 0, 1, and 2. Using this comparison, there is no evidence that the hot hand model fits Kobe's shooting patterns because he also mostly has one streak lengths, however, it does show that he has more variety of streak lengths in his game compared to the simulated shooter. 
+...
+

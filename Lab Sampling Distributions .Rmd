@@ -1,0 +1,82 @@
+---
+title: "Sampling Distributions Lab"
+author: "Juliana Meirelles"
+date: "Apr 21 2021"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(infer)
+```
+
+### Exercise 1
+
+12 people out of the 50 people sampled believe that the work scientists do does not benefit them. 12/50 is 24% of the sample, whereas our population statistic for people who do not believe the work scientists do benefits them is 20%. In the sample, 76% of people do believe scientist's work benefits them, while in our population that number is 80%. 
+
+```{r code-chunk-label}
+global_monitor <- tibble(
+  scientist_work = c(rep("Benefits", 80000), rep("Doesn't benefit", 20000))
+)
+
+samp1 <- global_monitor %>%
+  sample_n(50)
+```
+
+### Exercise 2
+
+I would expect my sample proportion to be slightly different than the sample proportion of another student's sample proportion if we do not set a seed, however, I believe they would be very close to each other in similarity because we are still working with the same sample size out of the same population.
+
+```{r}
+samp1 %>%
+  count(scientist_work) %>%
+  mutate(p_hat = n /sum(n))
+```
+
+### Exercise 3
+
+The sample proportion of samp2 is different than that of samp1 because the percent of people who do not believe scientist's and their work benefit them is 12%, rather than samp1 which was 24%. The percent of believe who do believe they benefit from scientist's work is 88% in samp2, but only 76% in samp1. If we took two more samples of size 100 and size 1000, respectively, the sampleof 1000 would provide a more accurate estimate of the population proportion.
+
+```{r}
+samp2 <- global_monitor %>%
+  sample_n(50)
+```
+
+### Exercise 4
+
+HThere are 4 different elements (or variables) in sample_props50, and 15000 samples. The sampling distribution's center is around 0.2 p_hat, and spreads from about 0.02 p_hat to 0.05 p_hat. Describe the sampling distribution, and be sure to specifically note its center.
+
+```{r}
+sample_props50 <- global_monitor %>%
+                    rep_sample_n(size = 50, reps = 15000, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+
+ggplot(data = sample_props50, aes(x = p_hat)) +
+  geom_histogram(binwidth = 0.02) +
+  labs(
+    x = "p_hat (Doesn't benefit)",
+    title = "Sampling distribution of p_hat",
+    subtitle = "Sample size = 50, Number of samples = 15000"
+  )
+```
+
+### Exercise 5
+
+There are 22 observations in this object called sample_props_small. Each observation represents a sampling statistics that make up the sampling distribution.
+
+```{r}
+sample_props_small <- global_monitor %>%
+                    rep_sample_n(size = 10, reps = 25, replace = TRUE) %>%
+                    count(scientist_work) %>%
+                    mutate(p_hat = n /sum(n)) %>%
+                    filter(scientist_work == "Doesn't benefit")
+```
+
+### Exercise 6
+
+Each observation in the sampling distribution represents the number of sample statistics that have a p_hat of a certain amount. As you increase the sample size, the mean becomes more centered, but remains almost the same and the distributions move closer to that of a normal distribution. The standard error decreases. The values do not change if you increase the number of simulations.
+...
+
